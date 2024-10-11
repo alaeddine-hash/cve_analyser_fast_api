@@ -15,7 +15,8 @@ class CVERequest(BaseModel):
 
 @app.post("/analyze")
 async def analyze_cve_endpoint(request: CVERequest):
-    cve_entry, error = analyze_cve(request.cve_id)
+    # Corrected line: Added 'await' to call the async function
+    cve_entry, error = await analyze_cve(request.cve_id)
     if error:
         raise HTTPException(status_code=400, detail=error)
     return cve_entry

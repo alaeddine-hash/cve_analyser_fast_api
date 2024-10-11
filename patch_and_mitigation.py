@@ -9,7 +9,6 @@ from langchain_openai import ChatOpenAI
 
 from get_cve import get_filtered_cves
 
-
 def default_serializer(obj):
     """ Custom serializer to handle non-serializable objects like datetime and Decimal """
     if isinstance(obj, datetime):
@@ -17,8 +16,6 @@ def default_serializer(obj):
     elif isinstance(obj, Decimal):
         return float(obj)  # Convert Decimal to float for JSON serialization
     raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
-
-
 
 def extract_advisory_links(cve):
     advisory_links = []
@@ -54,15 +51,13 @@ async def fetch_url(session, url):
     except Exception as e:
         return {'url': url, 'content': str(e)}
 
-
-
 def create_prompt_for_patch_and_mitigation(cve):
     prompt = f"""
 You are a knowledgeable, efficient, and direct AI assistant specializing in cybersecurity, system vulnerabilities, and risk assessment. Provide concise answers in JSON format, focusing on the key information needed. Analyze the provided scraped data  from the corresponding advisory URL for the given CVE :
 
 **CVE Details:**
 """
-# Iterate over all key-value pairs in the cve dictionary
+    # Iterate over all key-value pairs in the cve dictionary
     for key, value in cve.items():
         if key != 'advisory_contents':  # Exclude advisory_contents to avoid duplication
             # Format the key to have spaces and capitalize words (e.g., 'cve_id' -> 'CVE ID')
@@ -81,20 +76,20 @@ You are a knowledgeable, efficient, and direct AI assistant specializing in cybe
     for advisory in cve.get('advisory_contents', []):
         prompt += f"\n- **URL:** {advisory['url']}\n**Content:**\n{advisory['content']}\n"
 
-    prompt += """
+    prompt += f"""
 **Instructions:**
 
 to determine::
 1. If a patch is available for the CVE:
-   - Identify mentions of a valid patch, fix, update version, solution, or fixed version addressing CVE ID {cve_id}.
+   - Identify mentions of a valid patch, fix, update version, solution, or fixed version addressing CVE ID {cve['cve_id']}.
    - Exclude URLs with placeholders like "example.com" or variations containing the word "example".
-   - Verify that the identified patch URL specifically targets the vulnerability associated with CVE ID {cve_id}.
+   - Verify that the identified patch URL specifically targets the vulnerability associated with CVE ID {cve['cve_id']}.
    - Ensure the patch release link is accessible, functional, and not null. Confirm that the URL is live and reachable.
    - The URL must match exactly as found in the scraped data without truncation, modification, or incorrect formatting.
    - Verify the URL points directly to a patch or fix for the CVE and not to general information or unrelated content.
 
 2. If no patch is available, provide recommended mitigations:
-   - Identify comprehensive and specific mitigation measures for CVE ID {cve_id}.
+   - Identify comprehensive and specific mitigation measures for CVE ID {cve['cve_id']}.
    - Offer clear, actionable steps to protect systems from the vulnerability.
    - Include specific control measures tailored to the identified vulnerability based on the scraped data. Avoid generic responses.
    - Include details on:
@@ -123,14 +118,14 @@ Example response when a patch is available:
     "last_update": "2023-12-01",
     "recommendations": "Apply this patch to address the vulnerability."
   }},
-  "mitigation_measures": null,
+  "mitigation_measures": null
 }}
 
 Example response when a patch is not available:
 {{
   "patch_available": false,
   "patch": null,
-  "mitigation_measures": "Implement input validation and use a Web Application Firewall. Regularly audit your systems and monitor for suspicious activity.",
+  "mitigation_measures": "Implement input validation and use a Web Application Firewall. Regularly audit your systems and monitor for suspicious activity."
 }}
 
 Respond only in JSON format; I don't need any other comments or text.
@@ -143,18 +138,16 @@ Conditions:
 
     return prompt
 
-
-def process_cve_patch_and_mitigation(cve):
+async def process_cve_patch_and_mitigation(cve):
     print(f"Processing CVE ID: {cve['cve_id']}")
     # Extract advisory links
     references = extract_advisory_links(cve)
-    # Check if the number of references is greater than 5
+    # Limit to 3 references if there are more
     if len(references) > 3:
-        # Limit to 4 references
         references = references[:3]
     # Scrape the advisory contents
     try:
-        cve['advisory_contents'] = asyncio.run(scrape_urls(references))
+        cve['advisory_contents'] = await scrape_urls(references)
     except Exception as e:
         print(f"Error during advisory scraping: {e}")
         cve['advisory_contents'] = []
@@ -190,8 +183,6 @@ def process_cve_patch_and_mitigation(cve):
             cve['patch_available'] = result.get('patch_available')
             cve['patch'] = result.get('patch')
             cve['mitigation_measures'] = result.get('mitigation_measures')
-            #print(f"Results for CVE ID {cve['cve_id']}:")
-            #print(json.dumps(result, indent=2))
         except json.JSONDecodeError as e:
             print(f"Error parsing JSON response for CVE ID {cve['cve_id']}: {e}")
             print("LLM Output:")
@@ -204,8 +195,7 @@ def process_cve_patch_and_mitigation(cve):
         print(f"Error during LLM processing for CVE ID {cve['cve_id']}: {e}")
         return None
 
-
-def main():
+async def main():
     cves_with_recommendations = []
     cves = get_filtered_cves(2023, 2023, max_cves=20)  # Adjust the parameters as needed
     
@@ -214,7 +204,7 @@ def main():
     cves = cves[n:]
     
     for cve in cves:
-        augmented_cve = process_cve_patch_and_mitigation(cve)
+        augmented_cve = await process_cve_patch_and_mitigation(cve)
         if augmented_cve:
             cves_with_recommendations.append(augmented_cve)
     
@@ -224,7 +214,5 @@ def main():
     
     print("Completed processing CVEs for patch availability and mitigation measures.")
 
-
-
-if __name__ == "__main__" :
-    main()
+if __name__ == "__main__":
+    asyncio.run(main())

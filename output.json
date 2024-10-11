@@ -1,0 +1,182 @@
+[
+    {
+        "id": 165790,
+        "cve_id": "CVE-2021-34527",
+        "source_identifier": "secure@microsoft.com",
+        "published": "2021-07-02T23:15:08.757000+01:00",
+        "last_modified": "2024-02-02T18:24:01.260000+01:00",
+        "vuln_status": "Analyzed",
+        "description": "<p>A remote code execution vulnerability exists when the Windows Print Spooler service improperly performs privileged file operations. An attacker who successfully exploited this vulnerability could run arbitrary code with SYSTEM privileges. An attacker could then install programs; view, change, or delete data; or create new accounts with full user rights.</p>\n<p>UPDATE July 7, 2021: The security update for Windows Server 2012, Windows Server 2016 and Windows 10, Version 1607 have been released. Please see the Security Updates table for the applicable update for your system. We recommend that you install these updates immediately. If you are unable to install these updates, see the FAQ and Workaround sections in this CVE for information on how to help protect your system from this vulnerability.</p>\n<p>In addition to installing the updates, in order to secure your system, you must confirm that the following registry settings are set to 0 (zero) or are not defined (<strong>Note</strong>: These registry keys do not exist by default, and therefore are already at the secure setting.), also that your Group Policy setting are correct (see FAQ):</p>\n<ul>\n<li>HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\PointAndPrint</li>\n<li>NoWarningNoElevationOnInstall = 0 (DWORD) or not defined (default setting)</li>\n<li>UpdatePromptSettings = 0 (DWORD) or not defined (default setting)</li>\n</ul>\n<p><strong>Having NoWarningNoElevationOnInstall set to 1 makes your system vulnerable by design.</strong></p>\n<p>UPDATE July 6, 2021: Microsoft has completed the investigation and has released security updates to address this vulnerability. Please see the Security Updates table for the applicable update for your system. We recommend that you install these updates immediately. If you are unable to install these updates, see the FAQ and Workaround sections in this CVE for information on how to help protect your system from this vulnerability. See also <a href=\"https://support.microsoft.com/topic/31b91c02-05bc-4ada-a7ea-183b129578a7\">KB5005010: Restricting installation of new printer drivers after applying the July 6, 2021 updates</a>.</p>\n<p>Note that the security updates released on and after July 6, 2021 contain protections for CVE-2021-1675 and the additional remote code execution exploit in the Windows Print Spooler service known as \u201cPrintNightmare\u201d, documented in CVE-2021-34527.</p>\n",
+        "cvss_score_v3": 8.8,
+        "cvss_vector_v3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "cvss_score_v2": 9.0,
+        "cvss_vector_v2": "AV:N/AC:L/Au:S/C:C/I:C/A:C",
+        "weaknesses": "[{\"source\": \"nvd@nist.gov\", \"type\": \"Primary\", \"description\": [{\"lang\": \"en\", \"value\": \"CWE-269\"}]}]",
+        "configurations": "[{\"nodes\": [{\"operator\": \"OR\", \"negate\": false, \"cpeMatch\": [{\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_10_1507:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.10240.18969\", \"matchCriteriaId\": \"8C882409-BB85-490B-9D50-571B16C0DE86\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.14393.4470\", \"matchCriteriaId\": \"217CDA93-36DA-49AE-9B8F-61D2E155B4F3\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.17763.2029\", \"matchCriteriaId\": \"B9D38F0E-B058-44EE-9C75-A96EBEA360A6\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_10_20h2:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.19042.1083\", \"matchCriteriaId\": \"413EBEFB-B185-4D3E-840B-9F37AA041229\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.19044.1415\", \"matchCriteriaId\": \"4B773592-2AC2-48CD-A6B3-98D2632A2F88\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.19045.2251\", \"matchCriteriaId\": \"71F26E89-0870-4C4A-81FE-F9F793A9E706\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_11_21h2:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.22000.318\", \"matchCriteriaId\": \"193B0B19-6DD7-4DF3-B133-D66B27C34E9C\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_11_22h2:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.22621.674\", \"matchCriteriaId\": \"9DEC0AE5-324C-4117-ADFD-D8425D01C575\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_7:-:sp1:*:*:*:*:*:*\", \"matchCriteriaId\": \"C2B1C231-DE19-4B8F-A4AA-5B3A65276E46\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_8.1:-:*:*:*:*:*:*:*\", \"matchCriteriaId\": \"E93068DB-549B-45AB-8E5C-00EB5D8B5CF8\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_rt_8.1:-:*:*:*:*:*:*:*\", \"matchCriteriaId\": \"C6CE5198-C498-4672-AF4C-77AB4BE06C5C\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:*:*\", \"matchCriteriaId\": \"5F422A8C-2C4E-42C8-B420-E0728037E15C\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*\", \"matchCriteriaId\": \"AF07A81D-12E5-4B1D-BFF9-C8D08C32FF4F\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*\", \"matchCriteriaId\": \"A7DF96F8-BA6A-4780-9CA3-F719B3F81074\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*\", \"matchCriteriaId\": \"DB18C4CE-5917-401E-ACF7-2747084FD36E\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.14393.4470\", \"matchCriteriaId\": \"E90B2736-F3AC-4CA9-9817-1CCC320B854D\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.17763.2029\", \"matchCriteriaId\": \"81CDECCC-4AB5-406B-B265-3C1760D01339\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.20348.230\", \"matchCriteriaId\": \"0663409D-4AE8-4BD9-85FE-9EAED15AE9DB\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_20h2:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.19042.1083\", \"matchCriteriaId\": \"5B0C7DE0-3E5C-4112-A7AD-FC195C3E2E62\"}]}]}]",
+        "references": "[{\"url\": \"http://packetstormsecurity.com/files/167261/Print-Spooler-Remote-DLL-Injection.html\", \"source\": \"secure@microsoft.com\", \"tags\": [\"Exploit\", \"Third Party Advisory\", \"VDB Entry\"]}, {\"url\": \"https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2021-34527\", \"source\": \"secure@microsoft.com\", \"tags\": [\"Mitigation\", \"Patch\", \"Vendor Advisory\"]}]",
+        "analyzed": false,
+        "advisory_contents": " ",
+        "os_name": [
+            "Windows"
+        ],
+        "os_version": [
+            "7",
+            "8.1",
+            "RT 8.1",
+            "10 (1507, 1607, 1809, 20H2, 21H2, 22H2)",
+            "11 (21H2, 22H2)",
+            "Server 2008 (SP2)",
+            "Server 2008 R2 (SP1)",
+            "Server 2012",
+            "Server 2012 R2",
+            "Server 2016",
+            "Server 2019",
+            "Server 2022",
+            "Server 20H2"
+        ],
+        "exploitation_context": {
+            "contexts": [
+                {
+                    "environment": "Windows operating systems with Print Spooler service enabled (e.g., Windows Server 2012, Windows Server 2016, Windows 10 Version 1607)",
+                    "explanation": "The vulnerability specifically affects the Windows Print Spooler service, which must be running for exploitation to occur. The Print Spooler service is responsible for managing print jobs and requires certain configurations to be vulnerable, such as having Point and Print settings that allow for driver installation without user elevation."
+                },
+                {
+                    "environment": "Authenticated remote access to the system",
+                    "explanation": "Exploitation requires an attacker to have authenticated access to the target system. This means that the attacker must be able to connect to the Print Spooler service, which is typically restricted to users with valid credentials."
+                },
+                {
+                    "environment": "Systems with specific registry settings configured (e.g., NoWarningNoElevationOnInstall set to 1)",
+                    "explanation": "The exploitation is contingent upon certain registry settings that, if configured to allow driver installations without warnings or elevation, make the system vulnerable. If these settings are set to their default values (0 or not defined), the system is less susceptible to exploitation."
+                }
+            ],
+            "general_explanation": "The exploitation of CVE-2021-34527 is limited to specific Windows environments where the Print Spooler service is active, and the attacker has authenticated access. Additionally, the configuration of the system's registry settings plays a crucial role in determining the vulnerability's exploitability."
+        },
+        "Side": "server",
+        "exploitability_metrics": {
+            "AV": {
+                "value": "N",
+                "assessment": "Appropriate",
+                "remarks": "The vulnerability allows for remote code execution, as indicated by the description stating that an attacker can exploit the Print Spooler service remotely. This aligns with the 'Network' attack vector."
+            },
+            "AC": {
+                "value": "L",
+                "assessment": "Appropriate",
+                "remarks": "The description mentions that the Print Spooler service improperly performs privileged file operations, suggesting that the complexity of the attack is low, as it does not require special conditions or extensive knowledge to exploit."
+            },
+            "PR": {
+                "value": "L",
+                "assessment": "Appropriate",
+                "remarks": "The advisory indicates that an authenticated remote attacker can exploit this vulnerability, which is consistent with the low privilege requirement in the CVSS vector."
+            },
+            "UI": {
+                "value": "N",
+                "assessment": "Appropriate",
+                "remarks": "The description does not mention any need for user interaction to exploit the vulnerability, confirming that it can be executed without user involvement."
+            },
+            "S": {
+                "value": "U",
+                "assessment": "Appropriate",
+                "remarks": "The vulnerability allows an attacker to execute arbitrary code with SYSTEM privileges, which does not affect the security of other components, thus the scope remains unchanged."
+            }
+        },
+        "overall_assessment": "The vulnerability is highly exploitable due to its remote nature, low complexity, and minimal privilege requirements.",
+        "remarks": "Given the characteristics of this vulnerability, it poses a significant risk to affected systems, and immediate action is recommended to mitigate potential exploitation.",
+        "patch_available": true,
+        "patch": {
+            "release_link": "https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2021-34527",
+            "last_update": "2024-02-02",
+            "recommendations": "Apply the security updates provided by Microsoft to address the vulnerability."
+        },
+        "mitigation_measures": null
+    },
+    {
+        "id": 165790,
+        "cve_id": "CVE-2021-34527",
+        "source_identifier": "secure@microsoft.com",
+        "published": "2021-07-02T23:15:08.757000+01:00",
+        "last_modified": "2024-02-02T18:24:01.260000+01:00",
+        "vuln_status": "Analyzed",
+        "description": "<p>A remote code execution vulnerability exists when the Windows Print Spooler service improperly performs privileged file operations. An attacker who successfully exploited this vulnerability could run arbitrary code with SYSTEM privileges. An attacker could then install programs; view, change, or delete data; or create new accounts with full user rights.</p>\n<p>UPDATE July 7, 2021: The security update for Windows Server 2012, Windows Server 2016 and Windows 10, Version 1607 have been released. Please see the Security Updates table for the applicable update for your system. We recommend that you install these updates immediately. If you are unable to install these updates, see the FAQ and Workaround sections in this CVE for information on how to help protect your system from this vulnerability.</p>\n<p>In addition to installing the updates, in order to secure your system, you must confirm that the following registry settings are set to 0 (zero) or are not defined (<strong>Note</strong>: These registry keys do not exist by default, and therefore are already at the secure setting.), also that your Group Policy setting are correct (see FAQ):</p>\n<ul>\n<li>HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\PointAndPrint</li>\n<li>NoWarningNoElevationOnInstall = 0 (DWORD) or not defined (default setting)</li>\n<li>UpdatePromptSettings = 0 (DWORD) or not defined (default setting)</li>\n</ul>\n<p><strong>Having NoWarningNoElevationOnInstall set to 1 makes your system vulnerable by design.</strong></p>\n<p>UPDATE July 6, 2021: Microsoft has completed the investigation and has released security updates to address this vulnerability. Please see the Security Updates table for the applicable update for your system. We recommend that you install these updates immediately. If you are unable to install these updates, see the FAQ and Workaround sections in this CVE for information on how to help protect your system from this vulnerability. See also <a href=\"https://support.microsoft.com/topic/31b91c02-05bc-4ada-a7ea-183b129578a7\">KB5005010: Restricting installation of new printer drivers after applying the July 6, 2021 updates</a>.</p>\n<p>Note that the security updates released on and after July 6, 2021 contain protections for CVE-2021-1675 and the additional remote code execution exploit in the Windows Print Spooler service known as \u201cPrintNightmare\u201d, documented in CVE-2021-34527.</p>\n",
+        "cvss_score_v3": 8.8,
+        "cvss_vector_v3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "cvss_score_v2": 9.0,
+        "cvss_vector_v2": "AV:N/AC:L/Au:S/C:C/I:C/A:C",
+        "weaknesses": "[{\"source\": \"nvd@nist.gov\", \"type\": \"Primary\", \"description\": [{\"lang\": \"en\", \"value\": \"CWE-269\"}]}]",
+        "configurations": "[{\"nodes\": [{\"operator\": \"OR\", \"negate\": false, \"cpeMatch\": [{\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_10_1507:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.10240.18969\", \"matchCriteriaId\": \"8C882409-BB85-490B-9D50-571B16C0DE86\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.14393.4470\", \"matchCriteriaId\": \"217CDA93-36DA-49AE-9B8F-61D2E155B4F3\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.17763.2029\", \"matchCriteriaId\": \"B9D38F0E-B058-44EE-9C75-A96EBEA360A6\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_10_20h2:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.19042.1083\", \"matchCriteriaId\": \"413EBEFB-B185-4D3E-840B-9F37AA041229\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.19044.1415\", \"matchCriteriaId\": \"4B773592-2AC2-48CD-A6B3-98D2632A2F88\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.19045.2251\", \"matchCriteriaId\": \"71F26E89-0870-4C4A-81FE-F9F793A9E706\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_11_21h2:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.22000.318\", \"matchCriteriaId\": \"193B0B19-6DD7-4DF3-B133-D66B27C34E9C\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_11_22h2:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.22621.674\", \"matchCriteriaId\": \"9DEC0AE5-324C-4117-ADFD-D8425D01C575\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_7:-:sp1:*:*:*:*:*:*\", \"matchCriteriaId\": \"C2B1C231-DE19-4B8F-A4AA-5B3A65276E46\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_8.1:-:*:*:*:*:*:*:*\", \"matchCriteriaId\": \"E93068DB-549B-45AB-8E5C-00EB5D8B5CF8\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_rt_8.1:-:*:*:*:*:*:*:*\", \"matchCriteriaId\": \"C6CE5198-C498-4672-AF4C-77AB4BE06C5C\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:*:*\", \"matchCriteriaId\": \"5F422A8C-2C4E-42C8-B420-E0728037E15C\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*\", \"matchCriteriaId\": \"AF07A81D-12E5-4B1D-BFF9-C8D08C32FF4F\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*\", \"matchCriteriaId\": \"A7DF96F8-BA6A-4780-9CA3-F719B3F81074\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*\", \"matchCriteriaId\": \"DB18C4CE-5917-401E-ACF7-2747084FD36E\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.14393.4470\", \"matchCriteriaId\": \"E90B2736-F3AC-4CA9-9817-1CCC320B854D\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.17763.2029\", \"matchCriteriaId\": \"81CDECCC-4AB5-406B-B265-3C1760D01339\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.20348.230\", \"matchCriteriaId\": \"0663409D-4AE8-4BD9-85FE-9EAED15AE9DB\"}, {\"vulnerable\": true, \"criteria\": \"cpe:2.3:o:microsoft:windows_server_20h2:*:*:*:*:*:*:*:*\", \"versionEndExcluding\": \"10.0.19042.1083\", \"matchCriteriaId\": \"5B0C7DE0-3E5C-4112-A7AD-FC195C3E2E62\"}]}]}]",
+        "references": "[{\"url\": \"http://packetstormsecurity.com/files/167261/Print-Spooler-Remote-DLL-Injection.html\", \"source\": \"secure@microsoft.com\", \"tags\": [\"Exploit\", \"Third Party Advisory\", \"VDB Entry\"]}, {\"url\": \"https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2021-34527\", \"source\": \"secure@microsoft.com\", \"tags\": [\"Mitigation\", \"Patch\", \"Vendor Advisory\"]}]",
+        "analyzed": false,
+        "advisory_contents": " ",
+        "os_name": [
+            "Windows"
+        ],
+        "os_version": [
+            "7",
+            "8.1",
+            "RT 8.1",
+            "10 (1507, 1607, 1809, 20H2, 21H2, 22H2)",
+            "11 (21H2, 22H2)",
+            "Server 2008 (SP2)",
+            "Server 2008 R2 (SP1)",
+            "Server 2012",
+            "Server 2012 R2",
+            "Server 2016",
+            "Server 2019",
+            "Server 2022",
+            "Server 20H2"
+        ],
+        "exploitation_context": {
+            "contexts": [
+                {
+                    "environment": "Windows operating systems with Print Spooler service enabled (e.g., Windows Server 2012, Windows Server 2016, Windows 10 Version 1607)",
+                    "explanation": "The vulnerability specifically affects the Print Spooler service, which must be running for exploitation to occur. If the service is disabled, the vulnerability cannot be exploited."
+                },
+                {
+                    "environment": "Authenticated remote access to the Print Spooler service",
+                    "explanation": "Exploitation requires an authenticated remote attacker to send crafted DCERPC requests to the Print Spooler service. This means that the attacker must have some level of access to the network where the vulnerable system resides."
+                },
+                {
+                    "environment": "Systems with specific registry settings (e.g., NoWarningNoElevationOnInstall set to 1)",
+                    "explanation": "The exploitation is contingent upon certain registry settings being configured in a way that allows for the loading of untrusted printer drivers without warnings or elevation prompts, making the system vulnerable by design."
+                }
+            ],
+            "general_explanation": "The exploitation of CVE-2021-34527 is limited to specific Windows environments where the Print Spooler service is active, and where an attacker has authenticated access to send malicious requests. Additionally, certain registry configurations must be present to facilitate the exploitation."
+        },
+        "Side": "server",
+        "exploitability_metrics": {
+            "AV": {
+                "value": "N",
+                "assessment": "Appropriate",
+                "remarks": "The vulnerability allows for remote code execution, as indicated by the description stating that an attacker can exploit the Print Spooler service remotely. This aligns with the 'Network' attack vector."
+            },
+            "AC": {
+                "value": "L",
+                "assessment": "Appropriate",
+                "remarks": "The description mentions that the Print Spooler service can be abused by an authenticated remote attacker, suggesting that the complexity of the attack is low, as it does not require special conditions or extensive knowledge to exploit."
+            },
+            "PR": {
+                "value": "L",
+                "assessment": "Appropriate",
+                "remarks": "The CVE description indicates that an attacker must have authenticated access to exploit the vulnerability, which is consistent with the 'Low' privilege requirement in the CVSS vector."
+            },
+            "UI": {
+                "value": "N",
+                "assessment": "Appropriate",
+                "remarks": "The description does not mention any need for user interaction to exploit the vulnerability, confirming that it can be executed without user involvement."
+            },
+            "S": {
+                "value": "U",
+                "assessment": "Appropriate",
+                "remarks": "The vulnerability allows an attacker to execute arbitrary code with SYSTEM privileges, which does not affect the security of other components, thus the scope remains unchanged."
+            }
+        },
+        "overall_assessment": "The vulnerability is highly exploitable due to its remote nature, low complexity, and low privilege requirements.",
+        "remarks": "Given the nature of the vulnerability and the metrics assessed, it poses a significant risk to affected systems, especially if the recommended security updates are not applied.",
+        "patch_available": true,
+        "patch": {
+            "release_link": "https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2021-34527",
+            "last_update": "2024-02-02",
+            "recommendations": "Apply the security updates provided by Microsoft to address the vulnerability."
+        },
+        "mitigation_measures": null
+    }
+]

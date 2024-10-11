@@ -10,8 +10,6 @@ from datetime import datetime
 
 from augmented_cve_gpt import extract_advisory_links, scrape_urls
 
-
-
 def create_prompt_for_exploitability_metrics(cve):
     cvss_vector_v3 = cve.get('cvss_vector_v3')
     if not cvss_vector_v3:
@@ -48,7 +46,7 @@ You are a cybersecurity analyst with expertise in CVSS scoring and vulnerability
 2. **For each metric:**
 
     - **Provide the value from the CVSS vector.**
-    - **Assess whether the value is appropriate given the description of the CVE. If there is any discrepancy, explain it.**(impotant i need a real Justification from the descreption or the content of the advisoty links or clear rules in cibersecurity from your knowledge !!!)
+    - **Assess whether the value is appropriate given the description of the CVE. If there is any discrepancy, explain it.**(important: I need a real justification from the description, the content of the advisory links, or clear rules in cybersecurity from your knowledge!)
 
 3. **Provide an overall assessment of the exploitability of the vulnerability based on the metrics and the CVE description.**
 
@@ -62,27 +60,27 @@ Provide your response in valid JSON format as follows (do not include any code b
     "AV": {{
       "value": "Value from CVSS vector",
       "assessment": "Appropriate/Inappropriate",
-      "remarks": "Justification from the description impotant i need a real Justification from the descreption or the content of the advisoty links or clear rules in cibersecurity from your knowledge !!!"
+      "remarks": "Justification from the description (important: I need a real justification from the description, the content of the advisory links, or clear rules in cybersecurity from your knowledge!)"
     }},
     "AC": {{
       "value": "Value from CVSS vector",
       "assessment": "Appropriate/Inappropriate",
-      "remarks": "Justification from the description impotant i need a real Justification from the descreption or the content of the advisoty links or clear rules in cibersecurity from your knowledge !!!"
+      "remarks": "Justification from the description (important: I need a real justification from the description, the content of the advisory links, or clear rules in cybersecurity from your knowledge!)"
     }},
     "PR": {{
       "value": "Value from CVSS vector",
       "assessment": "Appropriate/Inappropriate",
-      "remarks": "Justification from the description impotant i need a real Justification from the descreption or the content of the advisoty links or clear rules in cibersecurity from your knowledge !!!"
+      "remarks": "Justification from the description (important: I need a real justification from the description, the content of the advisory links, or clear rules in cybersecurity from your knowledge!)"
     }},
     "UI": {{
       "value": "Value from CVSS vector",
       "assessment": "Appropriate/Inappropriate",
-      "remarks": "Justification from the description impotant i need a real Justification from the descreption or the content of the advisoty links or clear rules in cibersecurity from your knowledge !!!"
+      "remarks": "Justification from the description (important: I need a real justification from the description, the content of the advisory links, or clear rules in cybersecurity from your knowledge!)"
     }},
     "S": {{
       "value": "Value from CVSS vector",
       "assessment": "Appropriate/Inappropriate",
-      "remarks": "Justification from the description impotant i need a real Justification from the descreption or the content of the advisoty links or clear rules in cibersecurity from your knowledge !!!"
+      "remarks": "Justification from the description (important: I need a real justification from the description, the content of the advisory links, or clear rules in cybersecurity from your knowledge!)"
     }}
   }},
   "overall_assessment": "Overall assessment of exploitability",
@@ -106,18 +104,18 @@ def default_serializer(obj):
         return float(obj)  # Convert Decimal to float for JSON serialization
     raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
 
-def process_cve_exploitability_metrics(cve):
+async def process_cve_exploitability_metrics(cve):
     print(f"Processing CVE ID: {cve['cve_id']}")
     
     # Extract advisory links
     references = extract_advisory_links(cve)
-    # Check if the number of references is greater than 5
+    # Limit to 3 references if there are more
     if len(references) > 3:
-        # Limit to 4 references
         references = references[:3]
+    
     # Scrape the advisory contents
     try:
-        cve['advisory_contents'] = asyncio.run(scrape_urls(references))
+        cve['advisory_contents'] = await scrape_urls(references)
     except Exception as e:
         print(f"Error during advisory scraping: {e}")
         cve['advisory_contents'] = []
@@ -134,14 +132,12 @@ def process_cve_exploitability_metrics(cve):
         llm = ChatOpenAI(
             model_name='gpt-4o-mini',
             temperature=0.0,
-
         )
 
         # Get the response from the LLM
-        response = llm.invoke(prompt) 
-        #response = model.generate_content(prompt)
+        response = llm.invoke(prompt)
         output_text = response.content.strip()
-        #output_text = response.text.strip()
+
         # Clean the output_text by removing code block delimiters and language specifiers
         output_text = output_text.strip()
         if output_text.startswith('```'):
@@ -158,8 +154,6 @@ def process_cve_exploitability_metrics(cve):
             cve['exploitability_metrics'] = result.get('exploitability_metrics')
             cve['overall_assessment'] = result.get('overall_assessment')
             cve['remarks'] = result.get('remarks')
-            #print(f"Exploitability Metrics for CVE ID {cve['cve_id']}:")
-            #print(json.dumps(result['exploitability_metrics'], indent=2, default=default_serializer))
         except json.JSONDecodeError as e:
             print(f"Error parsing JSON response for CVE ID {cve['cve_id']}: {e}")
             print("LLM Output:")
@@ -173,14 +167,14 @@ def process_cve_exploitability_metrics(cve):
         return None
 
 
-def main():
+async def main():
     cves_with_exploitability = []
     cves = get_filtered_cves(2024, 2024, 110)  # Adjust the parameters as needed
     n = 90  # Number of CVEs to skip
     cves = cves[n:]  # Remove the first n CVEs
 
     for cve in cves:
-        augmented_cve = process_cve_exploitability_metrics(cve)
+        augmented_cve = await process_cve_exploitability_metrics(cve)
         
         if augmented_cve:
             augmented_cve['advisory_contents'] = ' '
@@ -192,5 +186,5 @@ def main():
 
     print("Completed processing CVEs for exploitability metrics.")
 
-
-
+if __name__ == "__main__":
+    asyncio.run(main())
